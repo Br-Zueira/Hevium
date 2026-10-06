@@ -69,7 +69,7 @@ bool findVal(int value, struct doubleNode *list) {
 
     // While we're in a valid node, goes to the next and return true if the value was found
     while (currentNode != NULL) {
-        if (currentNode->value && currentNode->value == value) {
+        if (currentNode->value == value) {
             return true;
         }
         currentNode = currentNode->next;
@@ -91,12 +91,25 @@ void deleteVal(int value, struct doubleNode *list) {
     // While we're in a valid node, iterates through the nodes and change pointers if value found
     while (currentNode != NULL) {
         if (currentNode->value == value) {
+            // Gets the immediate neighbour nodes
             struct node *previousNode = currentNode->previous;
             struct node *nextNode = currentNode->next;
 
-            previousNode->next = nextNode;
-            nextNode->previous = previousNode;
+            // If first or last of list, update list directly
+            // Else, updates nodes
+            if (currentNode == list->first) {
+                list->first = nextNode;
+            } else {                
+                previousNode->next = nextNode;
+            }
 
+            if (currentNode == list->last) {
+                list->last = previousNode;
+            } else {   
+                nextNode->previous = previousNode;
+            }
+
+            // Memory safety always :)
             free(currentNode);
             return;
         }
