@@ -97,6 +97,7 @@ void deleteVal(int value, struct doubleNode *list) {
             previousNode->next = nextNode;
             nextNode->previous = previousNode;
 
+            free(currentNode);
             return;
         }
         currentNode = currentNode->next;
