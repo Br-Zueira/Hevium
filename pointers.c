@@ -50,17 +50,12 @@ void insertVal(int value, struct doubleNode *list) {
     if (currentNode == NULL) {
         list->first = newNode; 
     } else {
-        // Finds the previous node to be set
-        while (currentNode != NULL) {
-            newNode->previous = currentNode;
-            currentNode = currentNode->next;
-        }
+        newNode->previous = list->last;
+        (list->last)->next = newNode;
     }
 
     // Puts the new node at the end of the list
     list->last = newNode;
-
-    printf("[VALUE: %d] [NEWNODE: %X] [PREVIOUS: %X] [NEXT: %X]\n", value, newNode, newNode->previous, newNode->next);
 }
 
 bool findVal(int value, struct doubleNode *list) {
