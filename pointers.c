@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct node {
     struct node *previous;
     struct node *next;
-    int value;
+    char *value;
 };
 
 struct doubleNode {
@@ -13,33 +14,37 @@ struct doubleNode {
     struct node *last;
 };
 
-void insertVal(int value, struct doubleNode *list);
-bool findVal(int value, struct doubleNode *list);
-void deleteVal(int value, struct doubleNode *list);
+void insertVal(const char *value, struct doubleNode *list);
+bool findVal(const char *value, struct doubleNode *list);
+void deleteVal(const char *value, struct doubleNode *list);
 
 int main() {
     struct doubleNode list = {NULL, NULL};
-    insertVal(1, &list);
-    insertVal(2, &list);
-    insertVal(3, &list);
-    insertVal(4, &list);
-    insertVal(5, &list);
-    printf("1 (on list): %d\n", findVal(1, &list));
-    printf("2 (on list): %d\n", findVal(2, &list));
-    printf("4 (on list): %d\n", findVal(4, &list));
-    printf("7 (never added): %d\n", findVal(7, &list));
-    deleteVal(4, &list);
-    printf("4 (removed): %d\n", findVal(4, &list));
+    insertVal("a", &list);
+    insertVal("bb", &list);
+    insertVal("ccc", &list);
+    insertVal("dddd", &list);
+    insertVal("eeeee", &list);
+    printf("a (on list): %d\n", findVal("a", &list));
+    printf("bb (on list): %d\n", findVal("bb", &list));
+    printf("ccc (on list): %d\n", findVal("ccc", &list));
+    printf("ghj (never added): %d\n", findVal("ghj", &list));
+    deleteVal("ccc", &list);
+    printf("ccc (removed): %d\n", findVal("ccc", &list));
+    deleteVal("a", &list);
+    printf("a (removed, list head): %d\n", findVal("a", &list));
+    deleteVal("eeeee", &list);
+    printf("eeeee (removed, list tail): %d\n", findVal("eeeee", &list));
     return 0;
 };
 
-void insertVal(int value, struct doubleNode *list) {
+void insertVal(const char *value, struct doubleNode *list) {
     // If list is invalid, stop execution
     if (list == NULL) { return; }
 
     // Node to be added
     struct node *newNode = malloc(sizeof(struct node));
-    newNode->value = value;
+    newNode->value = strdup(value);
     newNode->previous = NULL;
     newNode->next = NULL;
 
@@ -58,7 +63,7 @@ void insertVal(int value, struct doubleNode *list) {
     list->last = newNode;
 }
 
-bool findVal(int value, struct doubleNode *list) {
+bool findVal(const char *value, struct doubleNode *list) {
     // If list is empty or invalid, return false
     if (list == NULL || list->first == NULL) {
         return false;
@@ -69,7 +74,7 @@ bool findVal(int value, struct doubleNode *list) {
 
     // While we're in a valid node, goes to the next and return true if the value was found
     while (currentNode != NULL) {
-        if (currentNode->value == value) {
+        if (strcmp(currentNode->value, value) == 0) {
             return true;
         }
         currentNode = currentNode->next;
@@ -79,7 +84,7 @@ bool findVal(int value, struct doubleNode *list) {
     return false;
 }
 
-void deleteVal(int value, struct doubleNode *list) {
+void deleteVal(const char *value, struct doubleNode *list) {
     // If list is empty or invalid, stop execution
     if (list == NULL || list->first == NULL) {
         return;
@@ -90,7 +95,7 @@ void deleteVal(int value, struct doubleNode *list) {
 
     // While we're in a valid node, iterates through the nodes and change pointers if value found
     while (currentNode != NULL) {
-        if (currentNode->value == value) {
+        if (strcmp(currentNode->value, value) == 0) {
             // Gets the immediate neighbour nodes
             struct node *previousNode = currentNode->previous;
             struct node *nextNode = currentNode->next;
@@ -110,6 +115,7 @@ void deleteVal(int value, struct doubleNode *list) {
             }
 
             // Memory safety always :)
+            free(currentNode->value);
             free(currentNode);
             return;
         }
