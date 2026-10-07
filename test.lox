@@ -1,0 +1,64 @@
+print "Hello, world!";
+var a = (2 + 2) * 3;
+print a;
+print -a;
+print 0 / 0;
+print nil;
+print a != 0;
+if (a < 12) { 
+    print "if is true"; 
+} else if (a == 12) {
+    print "else if is true";
+} else { 
+    print "if is false"; 
+}
+var loopQuantity = 10;
+print "BEGIN LOOP";
+var i = 0;
+while (i < loopQuantity) {
+    print i;
+    i = i + 1;
+}
+print "END LOOP";
+
+fun squareNum(a) {
+    return a * a;
+}
+
+print squareNum(2);
+print squareNum(67);
+
+class Vehicle {
+    init(driver, vehicle) {
+        this.driver = driver;
+        this.vehicle = vehicle;
+    }
+
+    driving() {
+        print this.driver + " is driving a " + this.vehicle;
+    }
+}
+
+class Car < Vehicle {
+    init(driver) {
+        super.init(driver, "car");
+    }
+}
+
+var randomCar = Car("John Doe");
+randomCar.driving();
+
+var a = 1;
+var b = 2;
+a = b = 5;
+print a;
+print b;
+
+var scope = "global";
+{
+    var scope = "local";
+    print scope; // local
+}
+print scope; // global
+var scope = "dunno";
+print scope; // dunno

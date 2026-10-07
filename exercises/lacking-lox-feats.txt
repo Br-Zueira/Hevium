@@ -1,0 +1,10 @@
+++, --, +=, -=, *= and /= operators
+Modulo operator
+Bitwise operators
+Public and private class methods
+Deconstructors (?)
+Power and root operations
+Switch and case operators
+Arrays and lists
+Adding which type of argument the functions expect (type hints, now discovered the name of this thing)
+Multi-line comment

@@ -1,0 +1,4 @@
+Eval order of things like functions ( a() + b() ) -> left-to-right, as it's the way we read text
+What is truthy and what is falsy here? -> Make "", nil, NaN and maybe 0 falsy
+Are variables passed via value or reference? -> Probably values, but there could be like an operator to pass referencies instead, such as C++'s &
+Can functions be called before definition? -> It's more overhead, but also way cleaner, so if we can implement this, this should be a big YES.
