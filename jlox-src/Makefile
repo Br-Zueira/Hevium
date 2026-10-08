@@ -1,11 +1,13 @@
-TARGET=com.craftinginterpreters.Lox
-PATH_TARGET=com/craftinginterpreters/lox/Lox.java
+SOURCE_DIR=com/craftinginterpreters/lox
+PATH_TARGET=$(SOURCE_DIR)/Lox.java
+TOOLS_PATH=com/craftinginterpreters/tool
+TARGET=com.craftinginterpreters.lox.Lox
 
 compile:
-	javac $(TARGET).java
+	javac $(PATH_TARGET)
 
 clean:
-	rm -f com/craftinginterpreters/lox/*.class
+	rm -f com/craftinginterpreters/*/*.class
 
 test:
 	java $(TARGET)
@@ -13,3 +15,11 @@ test:
 ctest: compile test
 
 full: clean ctest
+
+OUTDIR=$(SOURCE_DIR)
+
+tools:
+	javac $(TOOLS_PATH)/GenerateAst.java
+	java $(TOOLS_PATH)/GenerateAst $(OUTDIR)
+
+.PHONY: clean test compile ctest full tools
