@@ -1,11 +1,10 @@
 package com.craftinginterpreters.lox;
 
+import static com.craftinginterpreters.lox.TokenType.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.craftinginterpreters.lox.TokenType.*;
 
 class Scanner {
     private final String source;
@@ -77,11 +76,16 @@ class Scanner {
                 break;
             case '>':
                 addToken(match('=') ? GREATER_EQUAL : GREATER);
-                break
+                break;
             case '/':
                 if (match('/')) {
                     // A comment goes until the end of the line.
                     while (peek() != '\n' && !isAtEnd()) advance();
+                } else if (match('*')) {
+                    while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
+                        if (peek() == '\n') line++;
+                        advance();
+                    }
                 } else {
                     addToken(SLASH);
                 }
