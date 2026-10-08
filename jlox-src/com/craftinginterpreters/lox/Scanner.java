@@ -82,10 +82,22 @@ class Scanner {
                     // A comment goes until the end of the line.
                     while (peek() != '\n' && !isAtEnd()) advance();
                 } else if (match('*')) {
+                    /*
+                        Multi-line comment like this
+                    */
                     while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
                         if (peek() == '\n') line++;
                         advance();
                     }
+
+                    if (isAtEnd()) {
+                        Lox.error(line, "Unterminated block comment");
+                        return;
+                    }
+
+                    advance(); // Consumes '*'
+                    advance(); // Consumes '/'
+                    
                 } else {
                     addToken(SLASH);
                 }
