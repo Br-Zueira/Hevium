@@ -1,0 +1,20 @@
+With syntatic sugar:
+
+expr -> expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
+     | IDENTIFIER
+     | NUMBER
+
+Zero syntatic sugar:
+
+expr -> expr abst
+expr -> IDENTIFIER
+expr -> NUMBER
+
+abst -> abst abst
+abst -> "(" ")"
+abst -> "(" expr ")"
+abst -> "(" expr interior ")"
+abst -> "." IDENTIFIER
+
+interior -> interior interior
+interior -> "," expr
